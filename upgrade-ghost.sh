@@ -84,7 +84,7 @@ fi
 
 echo "Restarting ghost."
 cd ~
-./start.sh
+NODE_ENV=production forever start /var/www/house-of-code-blog/index.js
 
 echo "All done. Check your new ghost version now!"
 
