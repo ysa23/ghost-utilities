@@ -91,7 +91,7 @@ if [ -n "$REMOVETHEME" ]; then
 fi
 
 echo "Copying new version files"
-unzip -uo ~/downloads/ghost-$GHOSTVERSION.zip -d $GHOSTDIR
+unzip -o ~/downloads/ghost-$GHOSTVERSION.zip -d $GHOSTDIR
 if [ $? -ne 0 ]; then
 	echo "Error while trying to copy new ghost version files."
 	exit 1
