@@ -32,11 +32,6 @@ fi
 
 echo "Upgarding ghost at '$GHOSTDIR' to verion $GHOSTVERSION"
 
-cd $GHOSTDIR
-$CUSTOMSCRIPT
-
-exit 1
-
 cd ~
 mkdir downloads
 cd downloads
