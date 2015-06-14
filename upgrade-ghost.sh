@@ -1,12 +1,32 @@
 # !/bin/bash
 
-if [ $# -lt 2 ]; then
-	echo "Usage: `basename $0` <ghost-version> <ghost-dir>"
+for i in "$@"
+do
+case $i in
+    -t=*|--targetghostversion=*)
+    GHOSTVERSION="${i#*=}"
+    shift # past argument=value
+    ;;
+    -g=*|--ghostpath=*)
+    GHOSTDIR="${i#*=}"
+    shift # past argument=value
+    ;;
+    --default)
+    DEFAULT=YES
+    shift # past argument with no value
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+done
+
+if [ -z "$GHOSTVERSION" ] || [ -z "$GHOSTDIR" ] ; then
+	echo "Usage: `basename $0` [-t=<target_ghost_version>] [-g=<ghost_path>]"
 	exit 1
 fi 
 
-GHOSTVERSION=$1
-GHOSTDIR=$2
+echo "Upgarding ghost at '$GHOSTDIR' to verion $GHOSTVERSION"
 
 cd ~
 mkdir downloads
