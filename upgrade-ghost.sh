@@ -11,6 +11,10 @@ case $i in
     GHOSTDIR="${i#*=}"
     shift # past argument=value
     ;;
+	-c=*|--customscript=*)
+    CUSTOMSCRIPT="${i#*=}"
+    shift # past argument=value
+    ;;
     --include-theme)
     REMOVETHEME=TRUE
     shift # past argument with no value
@@ -22,11 +26,16 @@ esac
 done
 
 if [ -z "$GHOSTVERSION" ] || [ -z "$GHOSTDIR" ] ; then
-	echo "Usage: `basename $0` -t=<target_ghost_version> -g=<ghost_path> [--include-theme]"
+	echo "Usage: `basename $0` -t=<target_ghost_version> -g=<ghost_path> [--include-theme] [-c=<custom_script_to_run_after_upgrade>]"
 	exit 1
 fi 
 
 echo "Upgarding ghost at '$GHOSTDIR' to verion $GHOSTVERSION"
+
+cd $GHOSTDIR
+$CUSTOMSCRIPT
+
+exit 1
 
 cd ~
 mkdir downloads
@@ -98,6 +107,14 @@ npm install --production
 if [ $? -ne 0 ]; then
 	echo "Error while trying install ghost."
 	exit 1
+fi
+
+if [ -n "$CUSTOMSCRIPT" ]; then
+	$CUSTOMSCRIPT
+	if [ $? -ne 0 ]; then
+		echo "Error while trying to run custom script - after upgrade backup was NOT executed."
+		exit 1
+	fi
 fi
 
 echo "Backing up after installation..."
