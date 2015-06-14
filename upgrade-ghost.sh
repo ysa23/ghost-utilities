@@ -11,8 +11,8 @@ case $i in
     GHOSTDIR="${i#*=}"
     shift # past argument=value
     ;;
-    --default)
-    DEFAULT=YES
+    --include-theme)
+    REMOVETHEME=TRUE
     shift # past argument with no value
     ;;
     *)
@@ -22,7 +22,7 @@ esac
 done
 
 if [ -z "$GHOSTVERSION" ] || [ -z "$GHOSTDIR" ] ; then
-	echo "Usage: `basename $0` [-t=<target_ghost_version>] [-g=<ghost_path>]"
+	echo "Usage: `basename $0` -t=<target_ghost_version> -g=<ghost_path> [--include-theme]"
 	exit 1
 fi 
 
@@ -76,6 +76,16 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
+if [ -n "$REMOVETHEME" ]; then
+	echo "Deleting content/themes folder"
+	rm -r content/themes
+	
+	if [ $? -ne 0 ]; then
+		echo "Error while trying to delete content/themes folder."
+		exit 1
+	fi
+fi
+
 echo "Copying new version files"
 unzip -uo ~/downloads/ghost-$GHOSTVERSION.zip -d $GHOSTDIR
 if [ $? -ne 0 ]; then
@@ -91,6 +101,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Backing up after installation..."
+git add .
 git commit -a -m "Backing up after upgrade to version $GHOSTVERSION"
 if [ $? -ne 0 ]; then
 	echo "Error while commit backup changes to ghost git repo."
