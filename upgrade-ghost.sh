@@ -1,7 +1,7 @@
 # !/bin/bash
 
 if [ $# -lt 2 ]; then
-	echo "Usage: upgrade-ghost.sh <ghost-version> <ghost-dir>"
+	echo "Usage: `basename $0` <ghost-version> <ghost-dir>"
 	exit 1
 fi 
 
