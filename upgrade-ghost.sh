@@ -142,6 +142,7 @@ fi
 
 if [ -n "$REMOVETHEME" ]; then
 	echo "Copy casper theme"
+	mkdir $GHOSTDIR/content/themes/casper
 	cp -R ~/downloads/ghost-$GHOSTVERSION/content/themes/casper $GHOSTDIR/content/themes/casper
 	if [ $? -ne 0 ]; then
 		echo "Unable to copy casper theme to $GHOSTDIR"
