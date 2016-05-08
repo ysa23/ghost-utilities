@@ -79,6 +79,24 @@ if [ $? -ne 0 ]; then
 	echo "Error while trying to delete core folder."
 	exit 1
 fi
+echo "Deleting *.md"
+rm *.md
+if [ $? -ne 0 ]; then
+	echo "Error while trying to delete *.md files"
+	exit 1
+fi
+echo "Deleting *.json"
+rm *.json
+if [ $? -ne 0 ]; then
+	echo "Error while trying to delete *.json files"
+	exit 1
+fi
+echo "Deleting index.js"
+rm index.js
+if [ $? -ne 0 ]; then
+	echo "Error while trying to delete index.js"
+	exit 1
+fi
 
 if [ -n "$REMOVETHEME" ]; then
 	echo "Deleting content/themes folder"
@@ -91,9 +109,34 @@ if [ -n "$REMOVETHEME" ]; then
 fi
 
 echo "Copying new version files"
-unzip -o ~/downloads/ghost-$GHOSTVERSION.zip -d $GHOSTDIR
+unzip -o ~/downloads/ghost-$GHOSTVERSION.zip -d ~/downloads/ghost-$GHOSTVERSION
 if [ $? -ne 0 ]; then
-	echo "Error while trying to copy new ghost version files."
+	echo "Error while trying to unzip ghost $GHOSTVERSION"
+	exit 1
+fi
+cp -R ~/downloads/ghost-$GHOSTVERSION/core $GHOSTDIR/core
+if [ $? -ne 0 ]; then
+	echo "Unable to copy core folder to $GHOSTDIR"
+	exit 1
+fi
+cp ~/downloads/ghost-$GHOSTVERSION/index.js $GHOSTDIR
+if [ $? -ne 0 ]; then
+	echo "Unable to copy index.js to $GHOSTDIR"
+	exit 1
+fi
+cp ~/downloads/ghost-$GHOSTVERSION/*.md $GHOSTDIR
+if [ $? -ne 0 ]; then
+	echo "Unable to copy md files to $GHOSTDIR"
+	exit 1
+fi
+cp ~/downloads/ghost-$GHOSTVERSION/package.json $GHOSTDIR
+if [ $? -ne 0 ]; then
+	echo "Unable to copy package.json to $GHOSTDIR"
+	exit 1
+fi
+cp ~/downloads/ghost-$GHOSTVERSION/npm-shrinkwrap.json $GHOSTDIR
+if [ $? -ne 0 ]; then
+	echo "Unable to copy npm-shrinkwrap.json to $GHOSTDIR"
 	exit 1
 fi
 
