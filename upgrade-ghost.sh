@@ -114,7 +114,7 @@ if [ $? -ne 0 ]; then
 	echo "Error while trying to unzip ghost $GHOSTVERSION"
 	exit 1
 fi
-cp -R ~/downloads/ghost-$GHOSTVERSION/core $GHOSTDIR
+cp -R ~/downloads/ghost-$GHOSTVERSION/core $GHOSTDIR/core
 if [ $? -ne 0 ]; then
 	echo "Unable to copy core folder to $GHOSTDIR"
 	exit 1
@@ -142,7 +142,7 @@ fi
 
 if [ -n "$REMOVETHEME" ]; then
 	echo "Copy casper theme"
-	cp -R ~/downloads/ghost-$GHOSTVERSION/content/themes/casper $GHOSTDIR/content/themes
+	cp -R ~/downloads/ghost-$GHOSTVERSION/content/themes/casper $GHOSTDIR/content/themes/casper
 	if [ $? -ne 0 ]; then
 		echo "Unable to copy casper theme to $GHOSTDIR"
 		exit 1
