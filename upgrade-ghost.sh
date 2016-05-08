@@ -114,7 +114,7 @@ if [ $? -ne 0 ]; then
 	echo "Error while trying to unzip ghost $GHOSTVERSION"
 	exit 1
 fi
-cp -R ~/downloads/ghost-$GHOSTVERSION/core $GHOSTDIR/core
+cp -R ~/downloads/ghost-$GHOSTVERSION/core $GHOSTDIR
 if [ $? -ne 0 ]; then
 	echo "Unable to copy core folder to $GHOSTDIR"
 	exit 1
@@ -138,6 +138,15 @@ cp ~/downloads/ghost-$GHOSTVERSION/npm-shrinkwrap.json $GHOSTDIR
 if [ $? -ne 0 ]; then
 	echo "Unable to copy npm-shrinkwrap.json to $GHOSTDIR"
 	exit 1
+fi
+
+if [ -n "$REMOVETHEME" ]; then
+	echo "Copy casper theme"
+	cp -R ~/downloads/ghost-$GHOSTVERSION/content/themes/casper $GHOSTDIR/content/themes
+	if [ $? -ne 0 ]; then
+		echo "Unable to copy casper theme to $GHOSTDIR"
+		exit 1
+	fi
 fi
 
 echo "Installing Ghost..."
