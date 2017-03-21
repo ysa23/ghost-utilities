@@ -19,6 +19,10 @@ case $i in
     REMOVETHEME=TRUE
     shift # past argument with no value
     ;;
+    --skip-backup)
+    SKIPBACKUP=TRUE
+    shift # past argument with no value
+    ;;
     *)
             # unknown option
     ;;
@@ -60,16 +64,22 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-echo "Backing up data in $GHOSTDIR"
-git commit -a -m "Backing up before downloading version $GHOSTVERSION"
-if [ $? -ne 0 ]; then
-	echo "Error while commit changes to ghost git repo."
-	exit 1
-fi
-git push
-if [ $? -ne 0 ]; then
-	echo "Error while trying to push changes to ghost git backup."
-	exit 1
+if [ -n "$SKIPBACKUP" ]; then
+	echo "Skipping backup as requested"
+else
+	echo "Backing up data in $GHOSTDIR"
+	git commit -a -m "Backing up before downloading version $GHOSTVERSION"
+
+	if [ $? -ne 0 ]; then
+		echo "Error while commit changes to ghost git repo."
+		exit 1
+	fi
+
+	git push
+	if [ $? -ne 0 ]; then
+		echo "Error while trying to push changes to ghost git backup."
+		exit 1
+	fi
 fi
 
 echo "Upgrading ghost..."
