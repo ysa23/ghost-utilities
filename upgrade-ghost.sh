@@ -176,7 +176,7 @@ if [ -n "$CUSTOMSCRIPT" ]; then
 fi
 
 echo "Backing up after installation..."
-git add .
+git add --all
 git commit -a -m "Backing up after upgrade to version $GHOSTVERSION"
 if [ $? -ne 0 ]; then
 	echo "Error while commit backup changes to ghost git repo."
