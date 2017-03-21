@@ -38,7 +38,7 @@ cd downloads
 rm -r *
 
 echo "downloading ghost version $GHOSTVERSION..."
-wget http://ghost.org/zip/ghost-$GHOSTVERSION.zip
+wget https://ghost.org/zip/ghost-$GHOSTVERSION.zip
 
 if [ $? -ne 0 ]; then
 	echo "Error while trying to download latest version of ghost"
